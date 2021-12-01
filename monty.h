@@ -39,6 +39,6 @@ typedef struct instruction_s
 
 char *substr(const char *source, char *target, int from, int to);
 void process_opcode(char *l, int ln, int i, int j, char **opcodes);
-void pl(FILE *file, char **opcodes);
+void process_lines(FILE *file, char **opcodes);
 
 #endif /* MONTY_MONTY_H */

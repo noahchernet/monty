@@ -1,4 +1,5 @@
 #include "monty.h"
+#include "stdio.h"
 
 /**
  * main - program starts here
@@ -11,20 +12,21 @@ int main(int argc, char **argv)
 {
 	FILE *file;
 	char *opcodes[7] = {"push", "pall", "pint", "swap", "pop", "add", "nop"};
+
 	if (argc < 2)
 	{
-		dprintf(STDERR_FILENO, "USAGE: monty file\n");
+		fprintf(stderr, "USAGE: monty file\n");
 		return (EXIT_FAILURE);
 	}
 
 	file = fopen(argv[1], "r");
 	if (!file)
 	{
-		dprintf(STDERR_FILENO, "Error: Can't open file %s\n", argv[0]);
+		fprintf(stderr, "Error: Can't open file %s\n", argv[0]);
 		exit(EXIT_FAILURE);
 	}
 
-	pl(file, opcodes);
+	process_lines(file, opcodes);
 	return (0);
 }
 
@@ -59,11 +61,16 @@ char *substr(const char *source, char *target, int from, int to)
 	return (target);
 }
 
-void pl(FILE *file, char **opcodes)
+/**
+ * process_lines - process one line at a time and interpret Monty bytecode
+ * @file: Monty bytecode whose lines will be executed one at a time
+ * @opcodes: supported Monty bytecode operation codes
+ */
+void process_lines(FILE *file, char **opcodes)
 {
 	char l[1000];
-	char *opcode_large = malloc(sizeof(char) * 4);
-	char *opcode_small = malloc(sizeof(char) * 3);
+	char *opcode_large;  /* For opcodes that are 4 characters in length */
+	char *opcode_small;  /* For opcodes that are 3 characters in length */
 	int i, j, ln = 0, opcode_executed;
 
 	while (fgets(l, sizeof(l), file) != NULL)
@@ -76,21 +83,23 @@ void pl(FILE *file, char **opcodes)
 
 			for (j = 0; j < 7; j++)
 			{
+				opcode_large = malloc(sizeof(char) * 4);
+				opcode_small = malloc(sizeof(char) * 3);
 				/* Check if line has one of the 4 character opcodes */
 				if ((!strcmp(substr(l, opcode_large, i, i + 3), opcodes[j]) &&
-					(l[i + 4] == ' ' || l[i + 4] == 0 || l[i + 4] == '\n') ) ||
+					(l[i + 4] == ' ' || l[i + 4] == 0 || l[i + 4] == '\n')) ||
 					(!strcmp(substr(l, opcode_small, i, i + 2), opcodes[j]) &&
-					 (l[i + 3] == ' ' || l[i + 3] == 0 || l[i + 3] == '\n')))
+					(l[i + 3] == ' ' || l[i + 3] == 0 || l[i + 3] == '\n')))
 				{
 					process_opcode(l, ln, i, j, opcodes);
 					opcode_executed = 1;
 				}
+				free(opcode_small);
+				free(opcode_large);
 			}
 			if (!opcode_executed)
 			{
-				free(opcode_large);
-				free(opcode_small);
-				dprintf(STDERR_FILENO, "L%d: unknown instruction %s\n",
+				fprintf(stderr, "L%d: unknown instruction %s\n",
 						ln, l + i);
 				exit(EXIT_FAILURE);
 			}
@@ -103,7 +112,8 @@ void pl(FILE *file, char **opcodes)
  * @l: the current line being processed by the interpreter
  * @i: index where the opcode starts in @line
  * @opcodes: list of available executable opcodes
- * @opcode_index: the index of the opcode in @opcodes to be executed
+ * @j: the index of the opcode in @opcodes to be executed
+ * @ln: the current line number of the file being processed
  * Return: void
  */
 void process_opcode(char *l, int ln, int i, int j, char **opcodes)
@@ -116,7 +126,7 @@ void process_opcode(char *l, int ln, int i, int j, char **opcodes)
 		push_num = strtol(l + i + 4, &return_string, 10);
 		if (return_string == l + i + 4)
 		{
-			dprintf(STDERR_FILENO, "L%d: usage: push integer\n", ln);
+			fprintf(stderr, "L%d: usage: push integer\n", ln);
 			exit(EXIT_FAILURE);
 		}
 		printf("OP_CODE = %s, VALUE = %ld\n", opcodes[j], push_num);
