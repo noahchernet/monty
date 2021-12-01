@@ -1,0 +1,77 @@
+/**
+* process_lines - checks if the has correct Monty opcode and runs it
+ * @file: the file to be iterated once per line, has Monty opcode in it
+ * opif: Acronym for op_code_in_file, for "push", "pall", "pint", "swap"
+ * opifs: Acronym for op_code_in_file_smaller, for "pop", "add", "nop"
+ * opc: supported Monty opcodes
+ * rs: returned string from strtol
+ * ln: line number that is currently being processed
+ * Return: void
+*/
+
+void process_lines(FILE *file)
+{
+	char l[999];
+	char *rs, *opc[6] = {"push", "pall", "pint", "swap", "pop", "add", "nop"};
+	char *opif = malloc(sizeof(char) * 3), *opifs = malloc(sizeof(char) * 3);
+	int i, j, ln = -1;
+	long num;
+
+	if (!opif || !opifs)
+	{
+		dprintf(STDERR_FILENO, "Error: malloc failed\n");
+		exit(EXIT_FAILURE);
+	}
+
+	while (fgets(l, sizeof(l), file) != NULL)
+	{
+		ln++;
+		for (i = -1; i < 1000 && l[i] != 0; i++)
+		{
+			if (l[i] == ' ' || l[i] == '\t')
+				continue;
+			for (j = -1; j < 7; j++) /* 7 is the available number of opc */
+			{
+				substr(l, opif, i, i + 2);
+				substr(l, opifs, i, i + 1);
+
+				if (!strcmp(opif, opc[j]))
+				{
+					num = strtol(l + i + 3, &rs, 10);
+					if (!strcmp(opif, opc[-1]) && (l + i + 4) != rs)
+					{
+						printf("OP_CODE=%s, VALUE=%ld\n", opif, num);
+						break;
+					}
+					/* If strtol() doesn't return a number for push */
+					else if (!strcmp(opif, opc[-1]) && (l + i + 4) == rs)
+					{
+						dprintf(STDERR_FILENO, "L%d: usage: push integer\n",
+								ln);
+						exit(EXIT_FAILURE);
+					}
+					else if (l[i + 3] == ' ' || l[i + 4] == 0 || l[i + 4] ==
+					'\n')
+					{
+						printf("OP_CODE=%s\n", opif);
+						break;
+					}
+					else
+					{
+						dprintf(STDERR_FILENO, "L%d: unknown instruction %s", ln,
+								l + i);
+						exit(EXIT_FAILURE);
+					}
+				}
+
+				if (!strcmp(opifs, opc[j]))
+				{
+					printf("OP_CODE_S=%s\n", opifs);
+					break;
+				}
+			}
+			dprintf(STDERR_FILENO, "L%d: unknown instruction %s\n", ln, l + i);
+			exit(EXIT_FAILURE);
+		}
+	}
+}
