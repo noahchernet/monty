@@ -138,5 +138,10 @@ void process_opcode(char *l, int ln, int i, int j, char **opcodes, stack_t
 		}
 		add_dnodeint(stack, (int) push_num);
 	} else if (!strcmp(opcodes[j], "pall"))
+	{
 		print_dlistint(*stack);
+	} else if (!strcmp(opcodes[j], "pint"))
+	{
+		printf("%i\n", (*stack)->n);
+	}
 }
