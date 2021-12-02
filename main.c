@@ -12,6 +12,7 @@ int main(int argc, char **argv)
 {
 	FILE *file;
 	char *opcodes[7] = {"push", "pall", "pint", "swap", "pop", "add", "nop"};
+	stack_t *stack = NULL;
 
 	if (argc < 2)
 	{
@@ -26,7 +27,7 @@ int main(int argc, char **argv)
 		exit(EXIT_FAILURE);
 	}
 
-	process_lines(file, opcodes);
+	process_lines(file, opcodes, &stack);
 	return (0);
 }
 
@@ -65,23 +66,26 @@ char *substr(const char *source, char *target, int from, int to)
  * process_lines - process one line at a time and interpret Monty bytecode
  * @file: Monty bytecode whose lines will be executed one at a time
  * @opcodes: supported Monty bytecode operation codes
+ * @stack: the stack to be modified
+ * Return: void
  */
-void process_lines(FILE *file, char **opcodes)
+void process_lines(FILE *file, char **opcodes, stack_t **stack)
 {
 	char l[1000];
-	char *opcode_large;  /* For opcodes that are 4 characters in length */
-	char *opcode_small;  /* For opcodes that are 3 characters in length */
+	char *opcode_large;  /* For opcodes that are 4 chars in length */
+	char *opcode_small;  /* For opcodes that are 3 chars in length */
 	int i, j, ln = 0, opcode_executed;
 
 	while (fgets(l, sizeof(l), file) != NULL)
 	{
-		ln++, opcode_executed = 0;
-		for (i = 0; i < 1000 && l[i] != 0; i++)
+		ln++;
+		for (i = 0; i < 1000 &&  l[i] != 0; i++)
 		{
+			opcode_executed = 0;
 			if (l[i] == ' ' || l[i] == '\t' || l[i] == 0 || l[i] == '\n')
 				continue;
 
-			for (j = 0; j < 7; j++)
+			for (j = 0; j < 7 && !opcode_executed; j++)
 			{
 				opcode_large = malloc(sizeof(char) * 4);
 				opcode_small = malloc(sizeof(char) * 3);
@@ -91,7 +95,7 @@ void process_lines(FILE *file, char **opcodes)
 					(!strcmp(substr(l, opcode_small, i, i + 2), opcodes[j]) &&
 					(l[i + 3] == ' ' || l[i + 3] == 0 || l[i + 3] == '\n')))
 				{
-					process_opcode(l, ln, i, j, opcodes);
+					process_opcode(l, ln, i, j, opcodes, stack);
 					opcode_executed = 1;
 				}
 				free(opcode_small);
@@ -103,6 +107,7 @@ void process_lines(FILE *file, char **opcodes)
 						ln, l + i);
 				exit(EXIT_FAILURE);
 			}
+			break;
 		}
 	}
 }
@@ -114,9 +119,11 @@ void process_lines(FILE *file, char **opcodes)
  * @opcodes: list of available executable opcodes
  * @j: the index of the opcode in @opcodes to be executed
  * @ln: the current line number of the file being processed
+ * @stack: the doubly linked list to be modified
  * Return: void
  */
-void process_opcode(char *l, int ln, int i, int j, char **opcodes)
+void process_opcode(char *l, int ln, int i, int j, char **opcodes, stack_t
+**stack)
 {
 	char *return_string = "";
 	long push_num;
@@ -129,7 +136,7 @@ void process_opcode(char *l, int ln, int i, int j, char **opcodes)
 			fprintf(stderr, "L%d: usage: push integer\n", ln);
 			exit(EXIT_FAILURE);
 		}
-		printf("OP_CODE = %s, VALUE = %ld\n", opcodes[j], push_num);
-	} else
-		printf("OP_CODE = %s\n", opcodes[j]);
+		add_dnodeint(stack, (int) push_num);
+	} else if (!strcmp(opcodes[j], "pall"))
+		print_dlistint(*stack);
 }
