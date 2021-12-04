@@ -14,7 +14,7 @@ int main(int argc, char **argv)
 	char *opcodes[7] = {"push", "pall", "pint", "swap", "pop", "add", "nop"};
 	stack_t *stack = NULL;
 
-	if (argc < 2)
+	if (argc != 2)
 	{
 		fprintf(stderr, "USAGE: monty file\n");
 		return (EXIT_FAILURE);
@@ -23,7 +23,7 @@ int main(int argc, char **argv)
 	file = fopen(argv[1], "r");
 	if (!file)
 	{
-		fprintf(stderr, "Error: Can't open file %s\n", argv[0]);
+		fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
 		exit(EXIT_FAILURE);
 	}
 
