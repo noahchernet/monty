@@ -3,13 +3,14 @@
 /**
  * push - push @push_num to the top of the stack
  * @stack: the doubly linked list to push @push_num to the top of
- * @l: current line being processed in the monty bytecode file
- * @ln: line number of monty file currently being processed
- * @i: where the caret on the line @ln is in the monty file
+ * @l: current line being processed in the monty bytecode f
+ * @ln: line number of monty f currently being processed
+ * @i: where the caret on the line @ln is in the monty f
+ * @f: monty bytecode that's being processed
  * Return: void
  */
 
-void push(stack_t **stack, char *l, int ln, int i, FILE *file)
+void push(stack_t **stack, char *l, int ln, int i, FILE *f)
 {
 	/* String returned from strtol, to check if it has run correctly */
 	char *return_string = "", a = (l + i + 4 + 1)[0];
@@ -33,7 +34,7 @@ void push(stack_t **stack, char *l, int ln, int i, FILE *file)
 	{
 		free_dlistint(*stack);
 		fprintf(stderr, "L%d: usage: push integer\n", ln);
-		fclose(file);
+		fclose(f);
 		exit(EXIT_FAILURE);
 	}
 	add_dnodeint(stack, (int) push_num);

@@ -35,7 +35,6 @@ int main(int argc, char **argv)
 
 /**
  * process_lines - process one line at a time and interpret Monty bytecode
- * @file: Monty bytecode whose lines will be executed one at a time
  * @opcodes: supported Monty bytecode operation codes
  * @stack: the stack to be modified
  * Return: void
@@ -104,6 +103,6 @@ void process_opcode(char *l, int ln, int i, int j, char **opcodes, stack_t
 		print_dlistint(*stack);
 	} else if (!strcmp(opcodes[j], "pint"))
 	{
-		printf("%i\n", (*stack)->n);
+		pint(stack, ln);
 	}
 }

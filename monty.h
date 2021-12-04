@@ -57,10 +57,8 @@ void free_dlistint(stack_t *head);
 
 
 /* Opcode functions */
-void push(stack_t **stack, char *l, int ln, int i, FILE *file);
-
-void pall(stack_t **stack, unsigned int line_number);
-void pint(stack_t **stack, unsigned int line_number);
+void push(stack_t **stack, char *l, int ln, int i, FILE *f);
+void pint(stack_t **stack, int ln);
 void swap(stack_t **stack, unsigned int line_number);
 void pop(stack_t **stack, unsigned int line_number);
 void add(stack_t **stack, unsigned int line_number);
