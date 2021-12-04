@@ -42,9 +42,10 @@ int main(int argc, char **argv)
 void process_lines(FILE *file, char **opcodes, stack_t **stack)
 {
 	char l[1000];
+	char unknown_opcode[100];
 	char opcode_large[4];  /* For opcodes that are 4 chars in length */
 	char opcode_small[3];  /* For opcodes that are 3 chars in length */
-	int i, j, ln = 0, opcode_executed;
+	int i, j, k, ln = 0, opcode_executed;
 
 	while (fgets(l, sizeof(l), file) != NULL)
 	{
@@ -59,7 +60,7 @@ void process_lines(FILE *file, char **opcodes, stack_t **stack)
 			{
 				/* Check if line has one of the 4 or 3 character opcodes */
 				if ((!strncmp(strncpy(opcode_large, l + i, 4),
-				  	opcodes[j], 4) && (l[i + 4] == ' ' || l[i + 4] == 0 ||
+					opcodes[j], 4) && (l[i + 4] == ' ' || l[i + 4] == 0 ||
 					  l[i + 4] == '\n')) || (!strncmp(strncpy(opcode_small, l
 					  + i, 3), opcodes[j], 4) && (l[i + 3] == ' ' || l[i + 3]
 					  == 0 || l[i + 3] == '\n')))
@@ -70,8 +71,11 @@ void process_lines(FILE *file, char **opcodes, stack_t **stack)
 			}
 			if (!opcode_executed)
 			{
+				for (k = i; l[k] != ' ' && l[k] != '\t' && l[k] != 0 && l[k]
+				!= '\n'; k++)
+					continue;
 				fprintf(stderr, "L%d: unknown instruction %s\n",
-						ln, l + i);
+						ln, strncpy(unknown_opcode, l + i, k - i));
 				exit(EXIT_FAILURE);
 			}
 			break;

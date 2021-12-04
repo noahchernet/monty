@@ -56,13 +56,12 @@ void free_dlistint(stack_t *head);
 
 /* Opcode functions */
 void push(stack_t **stack, char *l, int ln, int i);
-/*
+
 void pall(stack_t **stack, unsigned int line_number);
 void pint(stack_t **stack, unsigned int line_number);
 void swap(stack_t **stack, unsigned int line_number);
 void pop(stack_t **stack, unsigned int line_number);
 void add(stack_t **stack, unsigned int line_number);
 void nop(stack_t **stack, unsigned int line_number);
-*/
 
 #endif /* MONTY_MONTY_H */

@@ -2,7 +2,7 @@
 
 /**
  * add_dnodeint - adds a new dlistint_t to the top of the list
- * @head: the first element of the doubly linked list
+ * @stack: the first element of the doubly linked list
  * @n: the integer which will be in the new node of the list
  *
  * Return: new_node, the newly initialized node added to the top of the list
@@ -36,7 +36,7 @@ stack_t *add_dnodeint(stack_t **stack, const int n)
 
 /**
  * print_dlistint - prints the contents of the doubly linked list @h
- * @h: the first item in the doubly linked list
+ * @stack: the first item in the doubly linked list
  *
  * Return: size of the list
  */

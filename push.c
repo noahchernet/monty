@@ -1,7 +1,12 @@
 #include "monty.h"
 
 /**
- *
+ * push - push @push_num to the top of the stack
+ * @stack: the doubly linked list to push @push_num to the top of
+ * @l: current line being processed in the monty bytecode file
+ * @ln: line number of monty file currently being processed
+ * @i: where the caret on the line @ln is in the monty file
+ * Return: void
  */
 
 void push(stack_t **stack, char *l, int ln, int i)
