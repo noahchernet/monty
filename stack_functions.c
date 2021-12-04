@@ -55,7 +55,6 @@ size_t print_dlistint(const stack_t *stack)
 		stack = stack->next;
 	}
 
-	printf("---\n");
 	return (nodes);
 }
 

@@ -100,5 +100,7 @@ void process_opcode(char *l, int ln, int i, int j, char **opcodes, stack_t
 		pint(stack, ln);
 	else if (!strcmp(opcodes[j], "pop"))
 		pop(stack, ln);
+	else if (!strcmp(opcodes[j], "swap"))
+		swap(stack, ln);
 
 }
