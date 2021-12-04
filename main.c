@@ -76,7 +76,7 @@ void process_lines(char **opcodes, stack_t **stack)
 				!= '\n'; k++)
 					continue;
 				fprintf(stderr, "L%d: unknown instruction %s\n",
-						ln, strncpy(unknown_opcode, l + i, k - i));
+						ln, strncpy(unknown_opcode, l + i, k - i + 1));
 				fclose(file);
 				exit(EXIT_FAILURE);
 			} break;
@@ -98,7 +98,7 @@ void process_opcode(char *l, int ln, int i, int j, char **opcodes, stack_t
 **stack)
 {
 	if (!strcmp(opcodes[j], "push"))
-		push(stack, l, ln, i);
+		push(stack, l, ln, i, file);
 	else if (!strcmp(opcodes[j], "pall"))
 	{
 		print_dlistint(*stack);

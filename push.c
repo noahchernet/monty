@@ -9,7 +9,7 @@
  * Return: void
  */
 
-void push(stack_t **stack, char *l, int ln, int i)
+void push(stack_t **stack, char *l, int ln, int i, FILE *file)
 {
 	/* String returned from strtol, to check if it has run correctly */
 	char *return_string = "", a = (l + i + 4 + 1)[0];
