@@ -11,7 +11,7 @@ void pint(stack_t **stack, int ln)
 		printf("%i\n", (*stack)->n);
 	else
 	{
-		fprintf(stderr, "L%d: can't pop an empty stack\n", ln);
+		fprintf(stderr, "L%d: can't pint, stack empty\n", ln);
 		fclose(file);
 		exit(EXIT_FAILURE);
 	}

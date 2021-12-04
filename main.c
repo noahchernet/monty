@@ -75,7 +75,7 @@ void process_lines(char **opcodes, stack_t **stack)
 				!= '\n'; k++)
 					continue;
 				fprintf(stderr, "L%d: unknown instruction %s\n",
-						ln, strncpy(unknown_opcode, l + i, k - i + 1));
+						ln, strncpy(unknown_opcode, l + i, k - i));
 				fclose(file);
 				exit(EXIT_FAILURE);
 			} break;
