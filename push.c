@@ -1,5 +1,6 @@
 #include "monty.h"
 
+FILE *file;
 /**
  * push - push @push_num to the top of the stack
  * @stack: the doubly linked list to push @push_num to the top of
@@ -20,6 +21,7 @@ void push(stack_t **stack, char *l, int ln, int i)
 	{
 		free_dlistint(*stack);
 		fprintf(stderr, "L%d: usage: push integer\n", ln);
+		fclose(file);
 		exit(EXIT_FAILURE);
 	}
 	add_dnodeint(stack, (int) push_num);

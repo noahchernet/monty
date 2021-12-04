@@ -1,6 +1,7 @@
 #include "monty.h"
 #include "stdio.h"
 
+FILE *file;
 /**
  * main - program starts here
  * @argc: number of arguments passed
@@ -10,7 +11,6 @@
  */
 int main(int argc, char **argv)
 {
-	FILE *file;
 	char *opcodes[7] = {"push", "pall", "pint", "swap", "pop", "add", "nop"};
 	stack_t *stack = NULL;
 
@@ -27,8 +27,9 @@ int main(int argc, char **argv)
 		exit(EXIT_FAILURE);
 	}
 
-	process_lines(file, opcodes, &stack);
+	process_lines(opcodes, &stack);
 	free_dlistint(stack);
+	fclose(file);
 	return (0);
 }
 
@@ -39,7 +40,7 @@ int main(int argc, char **argv)
  * @stack: the stack to be modified
  * Return: void
  */
-void process_lines(FILE *file, char **opcodes, stack_t **stack)
+void process_lines(char **opcodes, stack_t **stack)
 {
 	char l[1000];
 	char unknown_opcode[100];
@@ -76,9 +77,9 @@ void process_lines(FILE *file, char **opcodes, stack_t **stack)
 					continue;
 				fprintf(stderr, "L%d: unknown instruction %s\n",
 						ln, strncpy(unknown_opcode, l + i, k - i));
+				fclose(file);
 				exit(EXIT_FAILURE);
-			}
-			break;
+			} break;
 		}
 	}
 }
