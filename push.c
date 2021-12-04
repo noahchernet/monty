@@ -6,11 +6,10 @@
  * @l: current line being processed in the monty bytecode f
  * @ln: line number of monty f currently being processed
  * @i: where the caret on the line @ln is in the monty f
- * @f: monty bytecode that's being processed
  * Return: void
  */
 
-void push(stack_t **stack, char *l, int ln, int i, FILE *f)
+void push(stack_t **stack, char *l, int ln, int i)
 {
 	/* String returned from strtol, to check if it has run correctly */
 	char *return_string = "", a = (l + i + 4 + 1)[0];
@@ -34,7 +33,7 @@ void push(stack_t **stack, char *l, int ln, int i, FILE *f)
 	{
 		free_dlistint(*stack);
 		fprintf(stderr, "L%d: usage: push integer\n", ln);
-		fclose(f);
+		fclose(file);
 		exit(EXIT_FAILURE);
 	}
 	add_dnodeint(stack, (int) push_num);

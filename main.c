@@ -61,7 +61,7 @@ void process_lines(char **opcodes, stack_t **stack)
 				if ((!strncmp(strncpy(opcode_large, l + i, 4),
 					opcodes[j], 4) && (l[i + 4] == ' ' || l[i + 4] == 0 ||
 					  l[i + 4] == '\n')) || (!strncmp(strncpy(opcode_small, l
-					  + i, 3), opcodes[j], 4) && (l[i + 3] == ' ' || l[i + 3]
+					  + i, 3), opcodes[j], 3) && (l[i + 3] == ' ' || l[i + 3]
 					  == 0 || l[i + 3] == '\n')))
 				{
 					process_opcode(l, ln, i, j, opcodes, stack);
@@ -93,12 +93,12 @@ void process_opcode(char *l, int ln, int i, int j, char **opcodes, stack_t
 **stack)
 {
 	if (!strcmp(opcodes[j], "push"))
-		push(stack, l, ln, i, file);
+		push(stack, l, ln, i);
 	else if (!strcmp(opcodes[j], "pall"))
-	{
 		print_dlistint(*stack);
-	} else if (!strcmp(opcodes[j], "pint"))
-	{
+	else if (!strcmp(opcodes[j], "pint"))
 		pint(stack, ln);
-	}
+	else if (!strcmp(opcodes[j], "pop"))
+		pop(stack, ln);
+
 }

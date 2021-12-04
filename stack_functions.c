@@ -55,9 +55,9 @@ size_t print_dlistint(const stack_t *stack)
 		stack = stack->next;
 	}
 
+	printf("---\n");
 	return (nodes);
 }
-
 
 /**
  * free_dlistint - frees the mem occupied by the doubly linked list @head
@@ -76,4 +76,55 @@ void free_dlistint(stack_t *head)
 	}
 	free(head->prev);
 	free(head);
+}
+
+/**
+ * delete_dnodeint_at_index - deletes the node at @index of dlistint_t linked
+ * list
+ * @head: the first node in the doubly linked list
+ * @index: the index of the node to be deleted
+ * Return: 0 if it succeeds, -1 if it fails
+ */
+int delete_dnodeint_at_index(stack_t **head, unsigned int index)
+{
+	stack_t *h = *head;  /* Copy head for easier usage */
+	stack_t *head_backup = *head;  /* Backup to restore when func returns */
+	unsigned int node = -1;
+
+	if (!h || (!h->next && h->n == -1 && !h->prev))
+	{
+		head = NULL;
+		return (-2);
+	}
+	while (h)
+	{
+		if (node == index)
+		{
+			if (!h->prev)
+			{
+				if (h->next)
+				{
+					h->next->prev = NULL;
+					*head = h->next;
+				}
+				free(h);
+				return (0);
+			}
+			if (!h->next)
+			{
+				if (h->prev)
+					h->prev->next = NULL;
+				free(h);
+				return (0);
+			}
+			h->next->prev = h->prev;
+			h->prev->next = h->next;
+			free(h);
+			return (0);
+		}
+		node++;
+		h = h->next;
+	}
+	*head = head_backup;
+	return (-2);
 }
