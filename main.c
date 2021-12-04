@@ -28,38 +28,8 @@ int main(int argc, char **argv)
 	}
 
 	process_lines(file, opcodes, &stack);
+	free_dlistint(stack);
 	return (0);
-}
-
-/**
- * substr - gets the substring of @source and sets it to @target
- * @source: the string where the substring will be taken from
- * @target: where the substring will be placed
- * @from: the starting index
- * @to: the final index
- * Return: 0 if successful, 1 if it failed
- */
-char *substr(const char *source, char *target, int from, int to)
-{
-	int length = 0;
-	int i = 0, j;
-
-	/* Get the length of the string */
-	while (source[i++] != '\0')
-		length++;
-
-	if (from < 0 || from > length)
-		return (0);
-	if (to > length)
-		to = length - 1;
-
-	for (i = from, j = 0; i <= to; i++, j++)
-		target[j] = source[i];
-
-	/* Assign NULL at the end of string */
-	target[j] = '\0';
-
-	return (target);
 }
 
 /**
@@ -72,8 +42,8 @@ char *substr(const char *source, char *target, int from, int to)
 void process_lines(FILE *file, char **opcodes, stack_t **stack)
 {
 	char l[1000];
-	char *opcode_large;  /* For opcodes that are 4 chars in length */
-	char *opcode_small;  /* For opcodes that are 3 chars in length */
+	char opcode_large[4];  /* For opcodes that are 4 chars in length */
+	char opcode_small[3];  /* For opcodes that are 3 chars in length */
 	int i, j, ln = 0, opcode_executed;
 
 	while (fgets(l, sizeof(l), file) != NULL)
@@ -87,19 +57,16 @@ void process_lines(FILE *file, char **opcodes, stack_t **stack)
 
 			for (j = 0; j < 7 && !opcode_executed; j++)
 			{
-				opcode_large = malloc(sizeof(char) * 4);
-				opcode_small = malloc(sizeof(char) * 3);
-				/* Check if line has one of the 4 character opcodes */
-				if ((!strcmp(substr(l, opcode_large, i, i + 3), opcodes[j]) &&
-					(l[i + 4] == ' ' || l[i + 4] == 0 || l[i + 4] == '\n')) ||
-					(!strcmp(substr(l, opcode_small, i, i + 2), opcodes[j]) &&
-					(l[i + 3] == ' ' || l[i + 3] == 0 || l[i + 3] == '\n')))
+				/* Check if line has one of the 4 or 3 character opcodes */
+				if ((!strncmp(strncpy(opcode_large, l + i, 4),
+				  	opcodes[j], 4) && (l[i + 4] == ' ' || l[i + 4] == 0 ||
+					  l[i + 4] == '\n')) || (!strncmp(strncpy(opcode_small, l
+					  + i, 3), opcodes[j], 4) && (l[i + 3] == ' ' || l[i + 3]
+					  == 0 || l[i + 3] == '\n')))
 				{
 					process_opcode(l, ln, i, j, opcodes, stack);
 					opcode_executed = 1;
 				}
-				free(opcode_small);
-				free(opcode_large);
 			}
 			if (!opcode_executed)
 			{
@@ -125,19 +92,9 @@ void process_lines(FILE *file, char **opcodes, stack_t **stack)
 void process_opcode(char *l, int ln, int i, int j, char **opcodes, stack_t
 **stack)
 {
-	char *return_string = "";
-	long push_num;
-
 	if (!strcmp(opcodes[j], "push"))
-	{
-		push_num = strtol(l + i + 4, &return_string, 10);
-		if (return_string == l + i + 4)
-		{
-			fprintf(stderr, "L%d: usage: push integer\n", ln);
-			exit(EXIT_FAILURE);
-		}
-		add_dnodeint(stack, (int) push_num);
-	} else if (!strcmp(opcodes[j], "pall"))
+		push(stack, l, ln, i);
+	else if (!strcmp(opcodes[j], "pall"))
 	{
 		print_dlistint(*stack);
 	} else if (!strcmp(opcodes[j], "pint"))

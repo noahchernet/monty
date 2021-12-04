@@ -8,7 +8,7 @@
  * Return: new_node, the newly initialized node added to the top of the list
  *		   NULL if malloc fails
  */
-stack_t *add_dnodeint(stack_t **head, const int n)
+stack_t *add_dnodeint(stack_t **stack, const int n)
 {
 	stack_t *new_node = malloc(sizeof(stack_t));
 
@@ -21,15 +21,15 @@ stack_t *add_dnodeint(stack_t **head, const int n)
 	new_node->prev = NULL;
 	new_node->next = NULL;
 
-	if (!*head)
+	if (!*stack)
 	{
-		*head = new_node;
+		*stack = new_node;
 		return (new_node);
 	}
 
-	new_node->next = *head;
-	(*head)->prev = new_node;
-	*head = new_node;
+	new_node->next = *stack;
+	(*stack)->prev = new_node;
+	*stack = new_node;
 
 	return (new_node);
 }
@@ -40,20 +40,40 @@ stack_t *add_dnodeint(stack_t **head, const int n)
  *
  * Return: size of the list
  */
-size_t print_dlistint(const stack_t *h)
+size_t print_dlistint(const stack_t *stack)
 {
 
 	int nodes = 0;
 
-	if (h == NULL)
+	if (stack == NULL)
 		return (0);
 
-	while (h != NULL)
+	while (stack != NULL)
 	{
-		printf("%d\n", h->n);
+		printf("%d\n", stack->n);
 		nodes++;
-		h = h->next;
+		stack = stack->next;
 	}
 
 	return (nodes);
+}
+
+
+/**
+ * free_dlistint - frees the mem occupied by the doubly linked list @head
+ * @head: the first item in the doubly linked list
+ *
+ * Return: void
+ */
+void free_dlistint(stack_t *head)
+{
+	if (!head)
+		return;
+	while (head->next)
+	{
+		free(head->prev);
+		head = head->next;
+	}
+	free(head->prev);
+	free(head);
 }
