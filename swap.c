@@ -9,9 +9,9 @@ void swap(stack_t **stack, int ln)
 {
 	int a, b;
 
-	if (!(*stack)->next)
+	if ((!*stack) || !(*stack)->next)
 	{
-		fprintf(stderr, "L%d: can't swap, stack too short", ln);
+		fprintf(stderr, "L%d: can't swap, stack too short\n", ln);
 		free(file);
 		exit(EXIT_FAILURE);
 	}
