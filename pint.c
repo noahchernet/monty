@@ -13,6 +13,7 @@ void pint(stack_t **stack, unsigned int ln)
 	{
 		fprintf(stderr, "L%d: can't pint, stack empty\n", ln);
 		fclose(file);
+		free_dlistint(*stack);
 		exit(EXIT_FAILURE);
 	}
 }

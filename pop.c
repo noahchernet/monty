@@ -13,6 +13,7 @@ void pop(stack_t **stack, unsigned int ln)
 	{
 		fprintf(stderr, "L%d: can't pop an empty stack\n", ln);
 		fclose(file);
+		free_dlistint(*stack);
 		exit(EXIT_FAILURE);
 	}
 

@@ -17,6 +17,7 @@ line_number)
 		{"mul", mul},
 		{"div", div_},
 		{"mod", mod},
+		{"pchar", pchar}
 	};
 	int i;
 	int size_of_ins = (int) ((int) sizeof(ins) / sizeof(ins[0]));

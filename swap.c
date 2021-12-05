@@ -13,6 +13,7 @@ void swap(stack_t **stack, unsigned int ln)
 	{
 		fprintf(stderr, "L%d: can't swap, stack too short\n", ln);
 		free(file);
+		free_dlistint(*stack);
 		exit(EXIT_FAILURE);
 	}
 

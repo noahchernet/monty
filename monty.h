@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/mman.h>
+#define DELIM " \n\t\r\a"
 
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
@@ -72,5 +73,6 @@ void sub(stack_t **stack, unsigned int ln);
 void mul(stack_t **stack, unsigned int ln);
 void div_(stack_t **stack, unsigned int ln);
 void mod(stack_t **stack, unsigned int ln);
+void pchar(stack_t **stack, unsigned int ln);
 
 #endif /* MONTY_MONTY_H */
