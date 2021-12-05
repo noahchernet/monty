@@ -12,10 +12,19 @@
 void push(stack_t **stack, char *l, int ln, int i)
 {
 	/* String returned from strtol, to check if it has run correctly */
-	char *return_string = "", a = (l + i + 4 + 1)[0];
+	char *return_string = "", *token = strtok(NULL, DELIM), a = (l + i + 4 + 1)[0];
 	int not_num = 0, j;
+	long push_num;
 
-	long push_num = strtol(strtok(NULL, DELIM), &return_string, 10);
+	if (token)
+		push_num = strtol(token, &return_string, 10);
+	else
+	{
+		free_dlistint(*stack);
+		fprintf(stderr, "L%d: usage: push integer\n", ln);
+		fclose(file);
+		exit(EXIT_FAILURE);
+	}
 
 	for (j = 1; a != 0; j++)
 	{
