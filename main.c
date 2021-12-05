@@ -55,8 +55,9 @@ void process_lines(char **opcodes, stack_t **stack, int supported_opcodes)
 		for (i = 0; i < 1000 &&  l[i] != 0; i++)
 		{
 			opcode_executed = 0;
-			if (l[i] == ' ' || l[i] == '\t' || l[i] == 0 || l[i] == '\n' ||
-			l[i] == '#')
+			if (l[i] == '#')
+				break;
+			if (l[i] == ' ' || l[i] == '\t' || l[i] == 0 || l[i] == '\n')
 				continue;
 
 			for (j = 0; j < supported_opcodes && !opcode_executed; j++)
