@@ -74,5 +74,6 @@ void mul(stack_t **stack, unsigned int ln);
 void div_(stack_t **stack, unsigned int ln);
 void mod(stack_t **stack, unsigned int ln);
 void pchar(stack_t **stack, unsigned int ln);
+void pstr(stack_t **stack);
 
 #endif /* MONTY_MONTY_H */
