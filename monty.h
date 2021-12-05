@@ -46,7 +46,7 @@ void (*get_instruction_func(const char *s))(stack_t **stack,
 											unsigned int ln);
 
 
-void process_lines(char **opcodes, stack_t **stack);
+void process_lines(char **opcodes, stack_t **stack, int supported_opcodes);
 void process_opcode(char *l, int ln, int i, int j, char **opcodes, stack_t
 **stack);
 

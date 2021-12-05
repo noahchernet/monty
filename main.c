@@ -13,6 +13,7 @@ int main(int argc, char **argv)
 {
 	char *opcodes[11] = {"push", "pall", "pint", "swap", "pop", "add", "nop",
 						"sub", "mul", "div", "mod"};
+	int supported_opcodes = 11;
 	stack_t *stack = NULL;
 
 	if (argc != 2)
@@ -28,7 +29,7 @@ int main(int argc, char **argv)
 		exit(EXIT_FAILURE);
 	}
 
-	process_lines(opcodes, &stack);
+	process_lines(opcodes, &stack, supported_opcodes);
 	free_dlistint(stack);
 	fclose(file);
 	return (0);
@@ -40,7 +41,7 @@ int main(int argc, char **argv)
  * @stack: the stack to be modified
  * Return: void
  */
-void process_lines(char **opcodes, stack_t **stack)
+void process_lines(char **opcodes, stack_t **stack, int supported_opcodes)
 {
 	char l[1000];
 	char opcode_large[4];  /* For opcodes that are 4 chars in length */
@@ -56,7 +57,7 @@ void process_lines(char **opcodes, stack_t **stack)
 			if (l[i] == ' ' || l[i] == '\t' || l[i] == 0 || l[i] == '\n')
 				continue;
 
-			for (j = 0; j < 7 && !opcode_executed; j++)
+			for (j = 0; j < supported_opcodes && !opcode_executed; j++)
 			{
 				/* Check if line has one of the 4 or 3 character opcodes */
 				if ((!strncmp(strncpy(opcode_large, l + i, 4),
