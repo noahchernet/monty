@@ -12,7 +12,11 @@ line_number)
 		{"pint", pint},
 		{"pop", pop},
 		{"swap", swap},
-		{"add", add}
+		{"add", add},
+		{"sub", sub},
+		{"mul", mul},
+		{"div", div_},
+		{"mod", mod},
 	};
 	int i;
 	int size_of_ins = (int) ((int) sizeof(ins) / sizeof(ins[0]));
