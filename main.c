@@ -39,6 +39,7 @@ int main(int argc, char **argv)
  * process_lines - process one line at a time and interpret Monty bytecode
  * @opcodes: supported Monty bytecode operation codes
  * @stack: the stack to be modified
+ * @supported_opcodes: number of opcodes supported by the program
  * Return: void
  */
 void process_lines(char **opcodes, stack_t **stack, int supported_opcodes)
