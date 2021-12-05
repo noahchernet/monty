@@ -38,12 +38,12 @@ typedef struct instruction_s
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 /**
- * get_instruction_func - loads appropriate function for passed opcode
- * @line_number: the line number being processed in the Monty bytecode
- * Return: the function for the opcode
+ * get_instruction_func - returns the right function for the opcode @s
+ * @ln: the line number currently being processed in @file
+ * Return: void
  */
 void (*get_instruction_func(const char *s))(stack_t **stack,
-									  unsigned int line_number);
+											unsigned int ln);
 
 
 void process_lines(char **opcodes, stack_t **stack);
@@ -58,14 +58,16 @@ void free_dlistint(stack_t *head);
 int delete_dnodeint_at_index(stack_t **head, unsigned int index);
 
 
-/* Opcode functions
+/*
+ * Opcode functions
  * ln - stands for line number being processed when the opcode is called
  */
+
 void push(stack_t **stack, char *l, int ln, int i);
 void pint(stack_t **stack, unsigned int ln);
 void pop(stack_t **stack, unsigned int ln);
 void swap(stack_t **stack, unsigned int ln);
 void add(stack_t **stack, unsigned int ln);
-void nop(stack_t **stack, unsigned int line_number);
+void sub(stack_t **stack, unsigned int line_number);
 
 #endif /* MONTY_MONTY_H */

@@ -2,8 +2,8 @@
 
 /**
  * get_instruction_func - runs the function that matches the opcode @s
- * @s: the opcode passed
- * Return: void
+ * @sline_number: non-existent parameter, added doc to suppress Betty warning
+ * Return: NULL if failed, appropriate function for opcode if successful
  */
 void (*get_instruction_func(const char *s))(stack_t **stack, unsigned int
 line_number)
@@ -23,5 +23,5 @@ line_number)
 			return (ins[i].f);
 	}
 
-	return NULL;
+	return (NULL);
 }

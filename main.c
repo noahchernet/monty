@@ -96,9 +96,9 @@ void process_opcode(char *l, int ln, int i, int j, char **opcodes, stack_t
 		push(stack, l, ln, i);
 	else if (!strcmp(opcodes[j], "pall"))
 		print_dlistint(*stack);
+	else if (strcmp(opcodes[j], "nop") != 0)
+		get_instruction_func(opcodes[j])(stack, ln);
 	else if (!strcmp(opcodes[j], "nop"))
 		return;
-	else
-		get_instruction_func(opcodes[j])(stack, ln);
 
 }
