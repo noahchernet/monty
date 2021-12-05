@@ -4,7 +4,6 @@
 /**
  * pstr - prints each character in the stack
  * @stack: the doubly linked list to push @push_num to the top of
- * @l: current line being processed in the monty bytecode f
  * Return: void
  */
 void pstr(stack_t **stack)

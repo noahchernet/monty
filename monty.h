@@ -57,7 +57,7 @@ stack_t *add_dnodeint(stack_t **stack, int n);
 size_t print_dlistint(const stack_t *stack);
 void free_dlistint(stack_t *head);
 int delete_dnodeint_at_index(stack_t **head, unsigned int index);
-
+stack_t *add_dnodeint_end(stack_t **head, int n);
 
 /*
  * Opcode functions
@@ -75,5 +75,7 @@ void div_(stack_t **stack, unsigned int ln);
 void mod(stack_t **stack, unsigned int ln);
 void pchar(stack_t **stack, unsigned int ln);
 void pstr(stack_t **stack);
+void rotl(stack_t **stack);
+void rotr(stack_t **stack);
 
 #endif /* MONTY_MONTY_H */

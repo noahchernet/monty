@@ -11,8 +11,14 @@ FILE *file;
  */
 int main(int argc, char **argv)
 {
-	char *opcodes[13] = {"push", "pall", "pint", "swap", "pchar", "pop", "add",
-						 "nop", "sub", "mul", "div", "mod", "pstr"};
+	char *opcodes[15] = {"push", "pall",
+						 "pint", "swap",
+						 "pchar", "pop",
+						 "add", "nop",
+						 "sub", "mul",
+						 "div", "mod",
+						 "pstr", "rotl",
+						 "rotr"};
 	int supported_opcodes = (int) ((int) sizeof(opcodes) / sizeof(opcodes[0]));
 	stack_t *stack = NULL;
 
@@ -98,6 +104,10 @@ void process_opcode(char *l, int ln, int i, int j, char **opcodes, stack_t
 		print_dlistint(*stack);
 	else if (!strcmp(opcodes[j], "pstr"))
 		pstr(stack);
+	else if (!strcmp(opcodes[j], "rotl"))
+		rotl(stack);
+	else if (!strcmp(opcodes[j], "rotr"))
+		rotr(stack);
 	else if (strcmp(opcodes[j], "nop") != 0)
 		get_instruction_func(opcodes[j])(stack, ln);
 	else if (!strcmp(opcodes[j], "nop"))
