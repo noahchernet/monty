@@ -61,7 +61,7 @@ void div_(stack_t **stack, unsigned int ln)
 
 	if (!*stack || !(*stack)->next || (*stack)->n == 0)
 	{
-		if ((*stack)->n == 0)
+		if (*stack && (*stack)->n == 0)
 			fprintf(stderr, "L%d: division by zero\n", ln);
 		else
 			fprintf(stderr, "L%d: can't div, stack too short\n", ln);
@@ -88,7 +88,7 @@ void mod(stack_t **stack, unsigned int ln)
 
 	if (!*stack || !(*stack)->next || (*stack)->n == 0)
 	{
-		if ((*stack)->n == 0)
+		if (*stack && (*stack)->n == 0)
 			fprintf(stderr, "L%d: division by zero\n", ln);
 		else
 			fprintf(stderr, "L%d: can't mod, stack too short\n", ln);
@@ -96,7 +96,7 @@ void mod(stack_t **stack, unsigned int ln)
 		exit(EXIT_FAILURE);
 	}
 
-	remainder = (*stack)->next->n / (*stack)->n;
+	remainder = (*stack)->next->n % (*stack)->n;
 	pop(stack, ln);
 	pop(stack, ln);
 	add_dnodeint(stack, remainder);
@@ -120,7 +120,7 @@ void mul(stack_t **stack, unsigned int ln)
 		exit(EXIT_FAILURE);
 	}
 
-	result = (*stack)->n + (*stack)->next->n;
+	result = (*stack)->n * (*stack)->next->n;
 	pop(stack, ln);
 	pop(stack, ln);
 	add_dnodeint(stack, result);
