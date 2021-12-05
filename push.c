@@ -12,7 +12,8 @@
 void push(stack_t **stack, char *l, int ln, int i)
 {
 	/* String returned from strtol, to check if it has run correctly */
-	char *return_string = "", *token = strtok(NULL, DELIM), a = (l + i + 4 + 1)[0];
+	char *return_string = "", *token = strtok(NULL, DELIM);
+	char a = (l + i + 4 + 1)[0];
 	int not_num = 0, j;
 	long push_num;
 
