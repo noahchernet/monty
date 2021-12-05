@@ -11,7 +11,8 @@ line_number)
 	instruction_t ins[] = {
 		{"pint", pint},
 		{"pop", pop},
-		{"swap", swap}
+		{"swap", swap},
+		{"add", add}
 	};
 	int i;
 	int size_of_ins = (int) ((int) sizeof(ins) / sizeof(ins[0]));

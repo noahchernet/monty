@@ -58,12 +58,14 @@ void free_dlistint(stack_t *head);
 int delete_dnodeint_at_index(stack_t **head, unsigned int index);
 
 
-/* Opcode functions */
+/* Opcode functions
+ * ln - stands for line number being processed when the opcode is called
+ */
 void push(stack_t **stack, char *l, int ln, int i);
 void pint(stack_t **stack, unsigned int ln);
 void pop(stack_t **stack, unsigned int ln);
 void swap(stack_t **stack, unsigned int ln);
-void add(stack_t **stack, unsigned int line_number);
+void add(stack_t **stack, unsigned int ln);
 void nop(stack_t **stack, unsigned int line_number);
 
 #endif /* MONTY_MONTY_H */
