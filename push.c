@@ -15,7 +15,7 @@ void push(stack_t **stack, char *l, int ln, int i)
 	char *return_string = "", a = (l + i + 4 + 1)[0];
 	int not_num = 0, j;
 
-	long push_num = strtol(strtok(NULL, DELIM), &return_string, 10);
+	long push_num = strtol(l + i + 4, &return_string, 10);
 
 	for (j = 1; a != 0; j++)
 	{

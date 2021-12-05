@@ -12,7 +12,7 @@ FILE *file;
 int main(int argc, char **argv)
 {
 	char *opcodes[11] = {"push", "pall", "pint", "swap", "pop", "add", "nop",
-						"sub", "mul", "div", "mod"};
+						 "sub", "mul", "div", "mod"};
 	int supported_opcodes = 11;
 	stack_t *stack = NULL;
 
@@ -45,6 +45,8 @@ int main(int argc, char **argv)
 void process_lines(char **opcodes, stack_t **stack, int supported_opcodes)
 {
 	char l[1000];
+	char opcode_large[4];  /* For opcodes that are 4 chars in length */
+	char opcode_small[3];  /* For opcodes that are 3 chars in length */
 	int i, j, ln = 0, opcode_executed;
 
 	while (fgets(l, sizeof(l), file) != NULL)
@@ -61,7 +63,10 @@ void process_lines(char **opcodes, stack_t **stack, int supported_opcodes)
 			for (j = 0; j < supported_opcodes && !opcode_executed; j++)
 			{
 				/* Check if line has one of the 4 or 3 character opcodes */
-				if (!strcmp(strtok(l, DELIM), opcodes[j]))
+				if ((!strncmp(strncpy(opcode_large, l + i, 4), opcodes[j], 4)
+				&& (l[i + 4] == ' ' || l[i + 4] == 0 || l[i + 4] == '\n')) ||
+				(!strncmp(strncpy(opcode_small, l + i, 3), opcodes[j], 3) &&
+				(l[i + 3] == ' ' || l[i + 3] == 0 || l[i + 3] == '\n')))
 				{
 					process_opcode(l, ln, i, j, opcodes, stack);
 					opcode_executed = 1;
@@ -70,7 +75,7 @@ void process_lines(char **opcodes, stack_t **stack, int supported_opcodes)
 			if (!opcode_executed)
 			{
 				fprintf(stderr, "L%d: unknown instruction %s\n",
-						ln, strtok(l, DELIM));
+						ln, strtok(l, " \n\t\r\a"));
 				fclose(file);
 				exit(EXIT_FAILURE);
 			} break;
