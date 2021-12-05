@@ -42,7 +42,7 @@ typedef struct instruction_s
  * @line_number: the line number being processed in the Monty bytecode
  * Return: the function for the opcode
  */
-void (*get_instruction_func(char *s))(stack_t *stack,
+void (*get_instruction_func(const char *s))(stack_t **stack,
 									  unsigned int line_number);
 
 
@@ -60,9 +60,9 @@ int delete_dnodeint_at_index(stack_t **head, unsigned int index);
 
 /* Opcode functions */
 void push(stack_t **stack, char *l, int ln, int i);
-void pint(stack_t **stack, int ln);
-void pop(stack_t **stack, int ln);
-void swap(stack_t **stack, int ln);
+void pint(stack_t **stack, unsigned int ln);
+void pop(stack_t **stack, unsigned int ln);
+void swap(stack_t **stack, unsigned int ln);
 void add(stack_t **stack, unsigned int line_number);
 void nop(stack_t **stack, unsigned int line_number);
 

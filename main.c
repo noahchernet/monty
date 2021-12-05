@@ -96,11 +96,7 @@ void process_opcode(char *l, int ln, int i, int j, char **opcodes, stack_t
 		push(stack, l, ln, i);
 	else if (!strcmp(opcodes[j], "pall"))
 		print_dlistint(*stack);
-	else if (!strcmp(opcodes[j], "pint"))
-		pint(stack, ln);
-	else if (!strcmp(opcodes[j], "pop"))
-		pop(stack, ln);
-	else if (!strcmp(opcodes[j], "swap"))
-		swap(stack, ln);
+	else
+		get_instruction_func(opcodes[j])(stack, ln);
 
 }
