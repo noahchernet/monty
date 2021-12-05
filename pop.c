@@ -17,6 +17,8 @@ void pop(stack_t **stack, int ln)
 	}
 
 	new_head = (*stack)->next;
-	free(*stack);
+	*stack = NULL;
+	if (*stack)
+		free(*stack);
 	*stack = new_head;
 }
