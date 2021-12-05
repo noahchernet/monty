@@ -86,44 +86,44 @@ void free_dlistint(stack_t *head)
  */
 int delete_dnodeint_at_index(stack_t **head, unsigned int index)
 {
-	stack_t *h = *head;  /* Copy head for easier usage */
-	stack_t *head_backup = *head;  /* Backup to restore when func returns */
-	unsigned int node = -1;
+	stack_t *old, *prev;
 
-	if (!h || (!h->next && h->n == -1 && !h->prev))
+	if (!head)
+		return (-1);
+
+	old = *head;
+
+	if (!old)
+		return (-1);
+
+	if (index)
 	{
-		head = NULL;
-		return (-2);
+		prev = old;
+
+		while (--index && prev->next)
+			prev = prev->next;
+
+		if (index)
+			return (-1);
+
+		old = prev->next;
+
+		if (!old)
+			return (-1);
+
+		prev->next = old->next;
+
+		if (prev->next)
+			prev->next->prev = prev;
 	}
-	while (h)
+	else
 	{
-		if (node == index)
-		{
-			if (!h->prev)
-			{
-				if (h->next)
-				{
-					h->next->prev = NULL;
-					*head = h->next;
-				}
-				free(h);
-				return (0);
-			}
-			if (!h->next)
-			{
-				if (h->prev)
-					h->prev->next = NULL;
-				free(h);
-				return (0);
-			}
-			h->next->prev = h->prev;
-			h->prev->next = h->next;
-			free(h);
-			return (0);
-		}
-		node++;
-		h = h->next;
+		*head = old->next;
+
+		if (*head)
+			(*head)->prev = NULL;
 	}
-	*head = head_backup;
-	return (-2);
+	free(old);
+
+	return (1);
 }

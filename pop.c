@@ -17,7 +17,6 @@ void pop(stack_t **stack, int ln)
 	}
 
 	new_head = (*stack)->next;
-	free(*stack);
-	*stack = NULL;
+	delete_dnodeint_at_index(stack, 0);
 	*stack = new_head;
 }
