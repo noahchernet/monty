@@ -11,7 +11,8 @@ FILE *file;
  */
 int main(int argc, char **argv)
 {
-	char *opcodes[7] = {"push", "pall", "pint", "swap", "pop", "add", "nop"};
+	char *opcodes[11] = {"push", "pall", "pint", "swap", "pop", "add", "nop",
+						"sub", "mul", "div", "mod"};
 	stack_t *stack = NULL;
 
 	if (argc != 2)
