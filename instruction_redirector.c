@@ -19,7 +19,7 @@ line_number)
 
 	for (i = 0; i < size_of_ins; i++)
 	{
-		if (*ins[i].opcode == *s)
+		if (!strcmp(ins[i].opcode, s))
 			return (ins[i].f);
 	}
 
